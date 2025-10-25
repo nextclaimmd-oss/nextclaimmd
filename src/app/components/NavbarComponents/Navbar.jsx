@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import MobileNavToggle from "./MobileNavbar";
-import logo from "@/app/assets/logonextclaim.png";
+import logo from "@/app/assets/logonextclaim.PNG";
 import { FaClock, FaEnvelope, FaPhone } from "react-icons/fa";
 import { FiHeadphones } from "react-icons/fi";
 
