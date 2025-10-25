@@ -27,9 +27,9 @@ export default async function Home() {
       <section>
         <WhyChooseUs homeData={homeData}/>
       </section>
-      {/* <section>
+      <section>
         <CallToAction />
-      </section> */}
+      </section>
     </main>
   );
 }
