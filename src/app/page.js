@@ -6,6 +6,8 @@ import StatsSection from "./components/HomeComponents/StatsSections";
 import ServicesSection from "./components/HomeComponents/ServiceCardComp";
 import WhyChooseUs from "./components/HomeComponents/WhyUs";
 import CallToAction from "./components/HomeComponents/ContactUsHome";
+import ServiceLocation from "./components/HomeComponents/ServiceArea";
+import Specialties from "./components/HomeComponents/Specility";
 
 export default async function Home() {
   const query = `*[_type == "home"][0]`;
@@ -28,8 +30,15 @@ export default async function Home() {
         <WhyChooseUs homeData={homeData}/>
       </section>
       <section>
+        <ServiceLocation homeData={homeData}/>
+      </section>
+      <section>
+        <Specialties />
+      </section>
+      <section>
         <CallToAction />
       </section>
+      
     </main>
   );
 }

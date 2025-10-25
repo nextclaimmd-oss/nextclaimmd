@@ -3,7 +3,7 @@ import { FaPhoneAlt, FaEnvelopeOpenText } from "react-icons/fa";
 export default function CallToAction() {
   return (
     <section className="w-full py-10 bg-white text-gray-800">
-      <div className="max-w-6xl mx-auto px-6 md:px-52 flex flex-col md:flex-row justify-between items-center gap-6 border-t-2 border-b-2 border-gray-300 py-8">
+      <div className="max-w-6xl mx-auto px-6 md:px-52 flex flex-col md:flex-row justify-between items-center gap-6  border-b-2 border-gray-300 py-8">
         {/* Call Info */}
         <div className="flex items-center gap-4">
           <FaPhoneAlt className="text-green-700 text-3xl" />
