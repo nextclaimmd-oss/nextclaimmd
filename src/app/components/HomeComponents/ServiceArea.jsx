@@ -1,5 +1,5 @@
 import Image from "next/image";
-import mapImage from "@/app/assets/america.png"; // make sure this image exists
+import mapImage from "@/app/assets/america.png";
 
 export default function ServiceLocation() {
   return (
