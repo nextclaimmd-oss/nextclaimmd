@@ -65,7 +65,7 @@ export default function ContactForms() {
             Try <span className="text-cyan-800">NextClaimMD</span> <br />
             Electronic Medical Billing Services
           </h2>
-          <p className="text-gray-500 mt-4 leading-relaxed">
+          <p className="text-gray-500 mt-4 text-sm leading-relaxed">
             Let&apos;s discuss your needs and show you how our solutions can
             help you streamline your operations. Fill out the form, and our team
             will get back to you shortly.
@@ -73,11 +73,11 @@ export default function ContactForms() {
 
           <div className="mt-8 space-y-3 text-gray-700">
             <div className="flex items-center gap-3">
-              <Phone className="text-cyan-600 w-5 h-5" />
+              <Phone className="bg-cyan-100 text-cyan-700 w-5 h-5" />
               <span>+92 347 5159863</span>
             </div>
             <div className="flex items-center gap-3">
-              <Mail className="text-cyan-600 w-5 h-5" />
+              <Mail className="text-cyan-700 w-5 h-5" />
               <span>support@nextclaimmd.com</span>
             </div>
           </div>
@@ -85,7 +85,7 @@ export default function ContactForms() {
 
         {/* RIGHT SECTION - CONTACT FORM */}
         <div className="bg-white rounded-2xl shadow-xl border-2 border-gray-400 p-8">
-          <h3 className="text-2xl font-semibold text-gray-900 mb-6">
+          <h3 className="text-2xl font-semibold font-mono text-gray-900 mb-6">
             Request a Quote
           </h3>
 
