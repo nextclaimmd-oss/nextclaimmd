@@ -33,7 +33,7 @@ export default function Navbar() {
             <div className="flex items-center space-x-2">
               <FiHeadphones />
               <a href="tel:+923215024094" className="font-medium">
-                +92 321-5024094
+                +92 343 5105142
               </a>
             </div>
           </div>
