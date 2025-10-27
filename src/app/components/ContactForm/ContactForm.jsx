@@ -73,7 +73,7 @@ export default function ContactForms() {
 
           <div className="mt-8 space-y-3 text-gray-700">
             <div className="flex items-center gap-3">
-              <Phone className="bg-cyan-100 text-cyan-700 w-5 h-5" />
+              <Phone className=" text-cyan-700 w-5 h-5" />
               <span>+92 347 5159863</span>
             </div>
             <div className="flex items-center gap-3">
