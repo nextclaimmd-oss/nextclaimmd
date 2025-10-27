@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Mail, Phone } from "lucide-react";
 
-export default function ContactForms() {
+export default function ContactForms({ contactData }) {
   const [form, setForm] = useState({
     name: "",
     practiceName: "",
@@ -62,23 +62,20 @@ export default function ContactForms() {
             Get a Quote
           </p>
           <h2 className="text-4xl font-bold font-mono text-gray-900 mt-3 leading-tight">
-            Try <span className="text-cyan-800">NextClaimMD</span> <br />
-            Electronic Medical Billing Services
+            {contactData.secondTitle}
           </h2>
           <p className="text-gray-500 mt-4 text-sm leading-relaxed">
-            Let&apos;s discuss your needs and show you how our solutions can
-            help you streamline your operations. Fill out the form, and our team
-            will get back to you shortly.
+            {contactData.description}
           </p>
 
           <div className="mt-8 space-y-3 text-gray-700">
             <div className="flex items-center gap-3">
               <Phone className=" text-cyan-700 w-5 h-5" />
-              <span>+92 347 5159863</span>
+              <span>{contactData.number}</span>
             </div>
             <div className="flex items-center gap-3">
               <Mail className="text-cyan-700 w-5 h-5" />
-              <span>support@nextclaimmd.com</span>
+              <span>{contactData.emailAddress}</span>
             </div>
           </div>
         </div>
