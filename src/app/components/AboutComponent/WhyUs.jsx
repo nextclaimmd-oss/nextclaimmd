@@ -1,0 +1,61 @@
+import Image from "next/image";
+import billing from "@/app/assets/billing.jpg"; // replace with your own image
+
+export default function WhyUss() {
+  const reasons = [
+    "Accurate Billing & Fewer Claim Rejections",
+    "Revenue Growth with Optimized Workflows",
+    "Reduced Accounts Receivable Days",
+    "Fast Turnaround for Payments",
+    "Experienced Billing Experts",
+    "Transparent Communication & Reporting",
+    "Dedicated Client Support Team",
+    "HIPAA-Compliant Data Security",
+    "Flexible & Scalable Solutions",
+    "Regulatory Compliance Expertise",
+  ];
+
+  return (
+    <section className="bg-gray-50 py-16 px-6">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10">
+        {/* Image Section */}
+        <div className="relative overflow-hidden shadow-lg">
+          <Image
+            src={billing}
+            alt="Medical Billing Professionals"
+            className="object-cover rounded-2xl"
+            width={600}
+            height={400}
+          />
+        </div>
+
+        {/* Text Section */}
+        <div className="w-full md:w-1/2">
+          <p className="text-cyan-700 font-semibold tracking-wide uppercase mb-2">
+            Why Choose Us
+          </p>
+          <h2 className="text-3xl md:text-3xl font-mono font-bold text-gray-900 mb-4 leading-tight">
+            A smarter way to handle your medical billing
+          </h2>
+          <p className="text-gray-600 mb-4 text-sm">
+            We simplify the revenue cycle with accuracy, speed, and compliance —
+            helping your practice grow and maintain financial stability without
+            the usual billing hassles.
+          </p>
+
+          {/* Two-column List */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 mb-4">
+            {reasons.map((item, index) => (
+              <div key={index} className="flex items-start space-x-3">
+                <span className="flex-shrink-0 w-5 h-5 mt-1 bg-cyan-800 text-white rounded-full flex items-center justify-center text-sm">
+                  ✓
+                </span>
+                <p className="text-gray-700 text-sm leading-relaxed">{item}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
