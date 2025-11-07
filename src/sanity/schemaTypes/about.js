@@ -1,9 +1,9 @@
 export const about = {
-    name: "about",
-    title: "About",
-    type: "document",
-    fields:[
- {
+  name: "about",
+  title: "About",
+  type: "document",
+  fields: [
+    {
       name: "title",
       title: "About Title",
       type: "string",
@@ -11,15 +11,17 @@ export const about = {
     },
     {
       name: "description",
-      title: "description",
-      type: "text",
+      title: "Description",
+      type: "array",
+      of: [{ type: "block" }],
       description: "Short description shown under the heading.",
     },
     {
       name: "sectionTitle",
       title: "Section Title",
       type: "string",
-      description: "The small heading above the main headline (e.g., 'Why Choose Us')",
+      description:
+        "The small heading above the main headline (e.g., 'Why Choose Us')",
     },
     {
       name: "headline",
@@ -98,5 +100,5 @@ export const about = {
       ],
       description: "List of workflow steps for the process section",
     },
-]
-}
+  ],
+};
