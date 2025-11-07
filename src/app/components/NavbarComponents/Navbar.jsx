@@ -28,16 +28,22 @@ export default function Navbar() {
               <FaEnvelope />
               <Link
                 href="mailto:info@nextclaimmd.com"
-                className="hover:underline"
+                className="hover:underline flex"
               >
-                <span className="font-bold">Email Now:</span>{" "}
+                <span className="font-bold hidden md:block pr-2">
+                  Email Now:
+                </span>{" "}
                 info@nextclaimmd.com
               </Link>
             </div>
             <div className="flex items-center space-x-2">
               <FiHeadphones />
-              <Link href="tel:+923215024094">
-                <span className="font-bold">Call Now:</span> (844) 212 2658
+              <Link href="tel:+923215024094" className="flex ">
+                <span className="font-bold hidden md:block pr-2">
+                  Call Now:
+                </span>
+                {"  "}
+                (844) 212 2658
               </Link>
             </div>
           </div>
