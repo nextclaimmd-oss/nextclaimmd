@@ -59,7 +59,7 @@ export default function Navbar() {
           <Link href="/services" className="hover:text-cyan-600">
             Services
           </Link>
-          <Link href="#" className="hover:text-cyan-600">
+          <Link href="/blogs" className="hover:text-cyan-600">
             Blogs
           </Link>
 
