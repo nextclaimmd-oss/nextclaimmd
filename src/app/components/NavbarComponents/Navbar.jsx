@@ -15,7 +15,7 @@ export default function Navbar() {
           <div className="flex items-center space-x-2">
             <FaClock className="text-white" />
             <p>
-              Production Hours:{" "}
+              Office Hours:{" "}
               <span className="font-medium">
                 Monday - Saturday 09:00 AM - 04:00 AM
               </span>
@@ -23,18 +23,22 @@ export default function Navbar() {
           </div>
 
           {/* Right: Email + Phone */}
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center text-xs space-x-6">
             <div className="flex items-center space-x-2">
               <FaEnvelope />
-              <a href="mailto:info@nextclaimmd.com" className="hover:underline">
+              <Link
+                href="mailto:info@nextclaimmd.com"
+                className="hover:underline"
+              >
+                <span className="font-bold">Email Now:</span>{" "}
                 info@nextclaimmd.com
-              </a>
+              </Link>
             </div>
             <div className="flex items-center space-x-2">
               <FiHeadphones />
-              <a href="tel:+923215024094" className="font-medium">
-                +92 343 5105142
-              </a>
+              <Link href="tel:+923215024094">
+                <span className="font-bold">Call Now:</span> (844) 212 2658
+              </Link>
             </div>
           </div>
         </div>
