@@ -6,7 +6,7 @@ export default function AboutHeading({ contactData }) {
         <p className="text-orange-500 uppercase tracking-widest font-medium">
           About
         </p>
-        <h2 className="text-4xl font-mono md:text-5xl font-bold mt-3">
+        <h2 className="text-4xl font-mono font-bold mt-3">
           About Next Claim Md
         </h2>
         <p className="text-gray-400 mt-4 max-w-2xl mx-auto">

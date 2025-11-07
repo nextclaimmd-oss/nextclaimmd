@@ -8,7 +8,7 @@ export default function ContactUs({ contactData }) {
         <p className="text-orange-500 uppercase tracking-widest font-medium">
           Contact
         </p>
-        <h2 className="text-4xl md:text-5xl font-bold mt-3">
+        <h2 className="text-4xl font-mono font-bold mt-3">
           {contactData.sectionTitle}
         </h2>
         <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
