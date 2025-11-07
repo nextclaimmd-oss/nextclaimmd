@@ -42,25 +42,25 @@ export default function MobileNavToggle() {
             Home
           </Link>
           <Link
-            href="/availableunits"
+            href="/services"
             className="block hover:text-green-700"
             onClick={() => setOpen(false)}
           >
-            Available Units
+            Services
           </Link>
           <Link
-            href="gallery"
+            href="/blogs"
             className="block hover:text-green-700"
             onClick={() => setOpen(false)}
           >
-            Gallery
+            Blogs
           </Link>
           <Link
-            href="/amenities"
+            href="/careers"
             className="block hover:text-green-700"
             onClick={() => setOpen(false)}
           >
-            About
+            Careers
           </Link>
           <Link
             href="/about"
@@ -69,13 +69,7 @@ export default function MobileNavToggle() {
           >
             About
           </Link>
-          <Link
-            href="/faq"
-            className="block hover:text-green-700"
-            onClick={() => setOpen(false)}
-          >
-            FAQs
-          </Link>
+
           <Link
             href="/contact"
             className="block hover:text-green-700"
@@ -84,13 +78,13 @@ export default function MobileNavToggle() {
             Contact
           </Link>
 
-          <a
+          <Link
             href="/contact"
             onClick={() => setOpen(false)}
-            className="block text-center bg-slate-600 text-white py-2 rounded-md hover:bg-green-700 transition"
+            className="block text-center bg-slate-600 text-white py-2 rounded-md hover:bg-green-700 transition cursor-pointer"
           >
-            Buy Units
-          </a>
+            Book Appointment
+          </Link>
         </nav>
       )}
     </div>
