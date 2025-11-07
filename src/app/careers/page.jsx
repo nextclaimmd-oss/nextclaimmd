@@ -2,15 +2,20 @@ import React from "react";
 import CareersHero from "../components/CareersComp/CareerHeader";
 import WhyWorkWithUs from "../components/CareersComp/CompanyBenifits";
 import JobOpenings from "../components/CareersComp/Jobs";
+import { client } from "@/sanity/lib/client";
 
-const page = () => {
+const page = async () => {
+  const query = `*[_type == "careers"][0]`;
+
+  const careerData = await client.fetch(query);
+
   return (
     <main>
       <section>
-        <CareersHero />
+        <CareersHero careerData={careerData} />
       </section>
       <section>
-        <JobOpenings />
+        <JobOpenings careerData={careerData} />
       </section>
       {/* <section>
         <WhyWorkWithUs />

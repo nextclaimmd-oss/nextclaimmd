@@ -3,6 +3,27 @@ export const careers = {
   title: "Careers",
   type: "document",
   fields: [
+    {name:"mainHeading",
+      title:"Heading On Top of Image",
+      type:"string",
+      description:"The Heading Which is Above the Image"
+    },
+    {
+      name: "mainDescription",
+      title: "Description Below The Main Heading",
+      type: "text",
+      rows: 3,
+      description: "Short description shown under the Main Heading.",
+    },
+     {
+      name: "image",
+      title: "Image",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
+      description: "Upload the image here.",
+    },
     {
       name: "heading",
       title: "Job Opening Heading",
