@@ -59,7 +59,7 @@ export default function Footer() {
         <div>
           <h4 className="text-white text-lg font-semibold mb-4">Contact Us</h4>
           <p className="text-sm mb-2">📍 1234 HealthCare Blvd, New York, NY</p>
-          <p className="text-sm mb-2">📞 (555) 123-4567</p>
+          <p className="text-sm mb-2">📞 (844) 212 2658</p>
           <p className="text-sm">✉️ info@nextclaimmd.com</p>
         </div>
       </div>

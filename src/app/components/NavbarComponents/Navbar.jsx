@@ -63,7 +63,7 @@ export default function Navbar() {
             Blogs
           </Link>
 
-          <Link href="#" className="hover:text-cyan-600">
+          <Link href="/careers" className="hover:text-cyan-600">
             Careers
           </Link>
           <Link href="/about" className="hover:text-cyan-600">
