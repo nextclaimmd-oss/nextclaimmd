@@ -1,7 +1,24 @@
-import React from "react";
+import { client } from "@/sanity/lib/client";
+import BlogHeaderImages from "../components/Blog/BlogHeaderImage";
+import BlogCardss from "../components/Blog/BlogCards";
+import BlogIntroduction from "../components/Blog/BlogIntro";
 
-const page = () => {
-  return <div>Blog Page</div>;
+const page = async () => {
+  const query = `*[_type =="blogs"]`;
+  const AllBlogs = await client.fetch(query);
+  return (
+    <main>
+      <section>
+        <BlogHeaderImages />
+      </section>
+      <section>
+        <BlogIntroduction />
+      </section>
+      <section>
+        <BlogCardss AllBlogs={AllBlogs} />
+      </section>
+    </main>
+  );
 };
 
 export default page;
