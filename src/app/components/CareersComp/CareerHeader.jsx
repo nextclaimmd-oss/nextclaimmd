@@ -1,5 +1,6 @@
 import Image from "next/image";
 import image from "@/app/assets/bgimage.jpg";
+import Link from "next/link";
 
 export default function CareersHero() {
   return (
@@ -30,18 +31,12 @@ export default function CareersHero() {
         </p>
 
         <div className="mt-10 flex items-center justify-center gap-x-4">
-          <a
-            href="#open-positions"
-            className="rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-all"
-          >
-            View Open Positions
-          </a>
-          <a
+          <Link
             href="/about"
             className="rounded-full border border-blue-600 px-6 py-3 text-sm font-semibold text-blue-600 hover:bg-blue-50 dark:hover:bg-gray-700 transition-all"
           >
             Learn More About Us
-          </a>
+          </Link>
         </div>
       </div>
     </section>
