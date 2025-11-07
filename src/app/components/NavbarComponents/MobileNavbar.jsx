@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import Image from "next/image";
-// import logo from "@/app/assets/logoo.png";
+import logo from "@/app/assets/logonextclaim.PNG";
 import Link from "next/link";
 
 export default function MobileNavToggle() {
@@ -13,7 +13,7 @@ export default function MobileNavToggle() {
     <div className="bg-white shadow-md">
       {/* Top Bar */}
       <div className="flex items-center justify-between px-4 py-3">
-        {/* <Link href="/">
+        <Link href="/">
           <Image
             src={logo}
             alt="Park Plaza Condos"
@@ -21,7 +21,7 @@ export default function MobileNavToggle() {
             height={40}
             className="object-contain"
           />
-        </Link> */}
+        </Link>
         <button
           aria-label="Toggle menu"
           onClick={() => setOpen(!open)}
