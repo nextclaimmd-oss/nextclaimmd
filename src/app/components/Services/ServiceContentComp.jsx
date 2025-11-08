@@ -34,17 +34,18 @@ const PortableTextComponents = {
   },
 };
 
-export default function BlogOverview({ blogData }) {
+export default function ServiceContent({ serviceData }) {
   return (
-    <section className="mb-12 ">
-      {blogData?.overview && (
-        <div className="prose prose-gray max-w-none leading-10">
-          <PortableText
-            value={blogData.overview}
-            components={PortableTextComponents}
-          />
-        </div>
-      )}
+    <section className="mb-12 mx-6 max-w-5xl my-12 md:mx-auto">
+      <h2 className="font-mono leading-10 font-bold text-center text-3xl max-w-6xl mx-auto">
+        {serviceData.serviceContentTitle}
+      </h2>
+      <div className="leading-8 ">
+        <PortableText
+          value={serviceData.serviceContent}
+          components={PortableTextComponents}
+        />
+      </div>
     </section>
   );
 }

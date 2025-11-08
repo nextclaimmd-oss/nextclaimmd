@@ -8,7 +8,7 @@ export default function BlogCardss({ AllBlogs }) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:max-w-6xl mx-auto lg:grid-cols-3 gap-6 my-12">
+    <div className="grid grid-cols-1 md:grid-cols-2 mx-8 md:max-w-6xl lg:mx-auto lg:grid-cols-3 gap-6 my-12">
       {AllBlogs.map((blog) => (
         <div
           key={blog._id}

@@ -1,6 +1,6 @@
 export default function BlogIntroduction() {
   return (
-    <section className="my-16 text-center px-4 md:px-0 max-w-4xl mx-auto">
+    <section className="my-16 text-center px-4 md:px-0 max-w-4xl lg:mx-auto md:mx-4">
       <h1 className="text-3xl md:text-3xl font-bold font-mono mb-3">
         Our Latest Blogs
       </h1>
