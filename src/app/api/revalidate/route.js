@@ -3,53 +3,55 @@ import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  const secret = "nextclaimrevalidate"; // use your own secret key
+  const secret = "nextclaimrevalidate"; // your secret key
   const { searchParams } = new URL(req.url);
 
-  // 1️⃣ Verify secret key
+  // 1️⃣ Validate secret
   if (searchParams.get("secret") !== secret) {
-    return NextResponse.json({ message: "Invalid token" }, { status: 401 });
+    return NextResponse.json({ message: "Invalid secret" }, { status: 401 });
   }
 
   try {
-    // 2️⃣ Parse body from Sanity webhook
     const body = await req.json();
-    const slug = body?.slug;
     const type = body?.type;
+    const slug = body?.slug;
 
-    if (!type) {
-      return NextResponse.json({ message: "Missing type" }, { status: 400 });
-    }
+    console.log("🔔 Webhook received:", { type, slug });
 
-    // 3️⃣ Define static pages that should always be refreshed
-    const staticPaths = ["/", "/careers", "/about", "/contact"];
+    // 2️⃣ Static paths to always revalidate
+    const staticPaths = ["/", "/about", "/careers", "/contact"];
 
-    // 4️⃣ Map Sanity document types to dynamic routes
+    // 3️⃣ Map document types to frontend routes
     const pathMap = {
-      services: `/services/${slug}`,
-      blogs: `/blogs/${slug}`,
+      services: slug ? `/services/${slug}` : "/services",
+      blogs: slug ? `/blogs/${slug}` : "/blogs",
       home: "/",
-      careers: "/careers",
       about: "/about",
+      careers: "/careers",
       contact: "/contact",
     };
 
-    const dynamicPath = pathMap[type];
+    // 4️⃣ Get the path to revalidate
+    const targetPath = pathMap[type];
 
-    // 5️⃣ Build final list of paths to revalidate
-    const revalidatedPaths = dynamicPath
-      ? [dynamicPath, ...staticPaths]
-      : staticPaths;
+    if (!targetPath) {
+      return NextResponse.json(
+        { message: `No revalidation rule for type: ${type}` },
+        { status: 400 }
+      );
+    }
 
-    // 6️⃣ Revalidate each path
-    for (const path of revalidatedPaths) {
+    // 5️⃣ Revalidate both dynamic and static paths
+    const pathsToRevalidate = [targetPath, ...staticPaths];
+
+    for (const path of pathsToRevalidate) {
       await revalidatePath(path);
       console.log(`✅ Revalidated: ${path}`);
     }
 
     return NextResponse.json({
       revalidated: true,
-      paths: revalidatedPaths,
+      paths: pathsToRevalidate,
     });
   } catch (err) {
     console.error("❌ Revalidation error:", err);
