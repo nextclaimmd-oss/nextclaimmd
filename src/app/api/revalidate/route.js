@@ -1,55 +1,60 @@
-// app/api/revalidate/route.js
+// /app/api/revalidate/route.js
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  const SECRET = "revalidatenextclaimmd";
+  const secret = "nextclaimrevalidate"; // use your own secret key
   const { searchParams } = new URL(req.url);
 
-  // Verify secret
-  if (searchParams.get("secret") !== SECRET) {
+  // 1️⃣ Verify secret key
+  if (searchParams.get("secret") !== secret) {
     return NextResponse.json({ message: "Invalid token" }, { status: 401 });
   }
 
   try {
+    // 2️⃣ Parse body from Sanity webhook
     const body = await req.json();
+    const slug = body?.slug;
+    const type = body?.type;
 
-    // Sanity sends either {_type: "..."} or {document: {_type: "..."}}
-    const type =
-      body?._type || body?.type || body?.document?._type || null;
+    if (!type) {
+      return NextResponse.json({ message: "Missing type" }, { status: 400 });
+    }
 
-    // Map your Sanity document types to actual routes
+    // 3️⃣ Define static pages that should always be refreshed
+    const staticPaths = ["/", "/careers", "/about", "/contact"];
+
+    // 4️⃣ Map Sanity document types to dynamic routes
     const pathMap = {
+      services: `/services/${slug}`,
+      blogs: `/blogs/${slug}`,
       home: "/",
-      services: "/services",
-      blogs: "/blogs",
       careers: "/careers",
       about: "/about",
       contact: "/contact",
     };
 
-   
-    const targetPath = pathMap[type];
+    const dynamicPath = pathMap[type];
 
-    // Otherwise revalidate all static pages as fallback
-    const pathsToRevalidate = targetPath
-      ? [targetPath]
-      : Object.values(pathMap);
+    // 5️⃣ Build final list of paths to revalidate
+    const revalidatedPaths = dynamicPath
+      ? [dynamicPath, ...staticPaths]
+      : staticPaths;
 
-    // Revalidate each path
-    for (const path of pathsToRevalidate) {
+    // 6️⃣ Revalidate each path
+    for (const path of revalidatedPaths) {
       await revalidatePath(path);
       console.log(`✅ Revalidated: ${path}`);
     }
 
     return NextResponse.json({
       revalidated: true,
-      paths: pathsToRevalidate,
+      paths: revalidatedPaths,
     });
-  } catch (error) {
-    console.error("❌ Revalidation error:", error);
+  } catch (err) {
+    console.error("❌ Revalidation error:", err);
     return NextResponse.json(
-      { message: "Error during revalidation", error: error.message },
+      { message: "Error during revalidation", error: err.message },
       { status: 500 }
     );
   }
