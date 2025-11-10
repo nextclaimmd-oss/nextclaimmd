@@ -1,4 +1,4 @@
-export const runtime = 'edge'; // Important
+export const runtime = 'edge';
 
 export async function POST(req) {
   try {
@@ -15,19 +15,15 @@ export async function POST(req) {
     const { slug, type } = body;
     if (!type) return new Response(JSON.stringify({ message: 'Missing type' }), { status: 400 });
 
-    // Static pages
     const staticPages = ['/', '/careers', '/about', '/contact'];
 
-    // Determine dynamic path
     let dynamicPath = null;
     if (type === 'services') dynamicPath = `/services/${slug}`;
     if (type === 'blogs') dynamicPath = `/blogs/${slug}`;
-    if (type === 'static') dynamicPath = slug; // slug for static pages
+    if (type === 'static') dynamicPath = slug;
 
-    // Combine paths
     const pathsToRevalidate = dynamicPath ? [...staticPages, dynamicPath] : [...staticPages];
 
-    // Revalidate all paths
     for (const path of pathsToRevalidate) {
       await fetch(new URL(path, req.url), { method: 'POST', headers: { 'x-revalidate': 'true' } });
     }
