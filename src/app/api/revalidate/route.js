@@ -21,8 +21,8 @@ export async function POST(req, res) {
 
     // ✅ Dynamic paths
     let dynamicPath = null;
-    if (type === 'service') dynamicPath = `/services/${slug}`;
-    if (type === 'blog') dynamicPath = `/blogs/${slug}`;
+    if (type === 'services') dynamicPath = `/services/${slug}`;
+    if (type === 'blogs') dynamicPath = `/blogs/${slug}`;
     if (type === 'static') dynamicPath = slug; // e.g., "/about"
 
     // Combine paths
