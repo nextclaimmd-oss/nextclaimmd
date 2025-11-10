@@ -1,57 +1,45 @@
-// app/api/revalidate/route.js
-import { revalidatePath } from "next/cache";
-import { NextResponse } from "next/server";
+export const runtime = 'edge'; // Important
 
 export async function POST(req) {
-  const SECRET = "myrevalidatesecret";
-  const { searchParams } = new URL(req.url);
-
-  // Verify secret
-  if (searchParams.get("secret") !== SECRET) {
-    return NextResponse.json({ message: "Invalid token" }, { status: 401 });
-  }
-
   try {
-    const body = await req.json();
+    const secret = "myrevalidatesecret"
+    const { searchParams } = new URL(req.url);
 
-    // Sanity sends either {_type: "..."} or {document: {_type: "..."}}
-    const type =
-      body?._type || body?.type || body?.document?._type || null;
-
-    // Map your Sanity document types to actual routes
-    const pathMap = {
-      home: "/",
-      services: "/services",
-      blogs: "/blogs",
-      careers: "/careers",
-      about: "/about",
-      contact: "/contact",
-      
-    };
-
-   
-    const targetPath = pathMap[type];
-
-    // Otherwise revalidate all static pages as fallback
-    const pathsToRevalidate = targetPath
-      ? [targetPath]
-      : Object.values(pathMap);
-
-    // Revalidate each path
-    for (const path of pathsToRevalidate) {
-      await revalidatePath(path);
-      console.log(`✅ Revalidated: ${path}`);
+    if (searchParams.get('secret') !== secret) {
+      return new Response(JSON.stringify({ message: 'Invalid secret' }), { status: 401 });
     }
 
-    return NextResponse.json({
+    const body = await req.json().catch(() => null);
+    if (!body) return new Response(JSON.stringify({ message: 'Missing body' }), { status: 400 });
+
+    const { slug, type } = body;
+    if (!type) return new Response(JSON.stringify({ message: 'Missing type' }), { status: 400 });
+
+    // Static pages
+    const staticPages = ['/', '/careers', '/about', '/contact'];
+
+    // Determine dynamic path
+    let dynamicPath = null;
+    if (type === 'services') dynamicPath = `/services/${slug}`;
+    if (type === 'blogs') dynamicPath = `/blogs/${slug}`;
+    if (type === 'static') dynamicPath = slug; // slug for static pages
+
+    // Combine paths
+    const pathsToRevalidate = dynamicPath ? [...staticPages, dynamicPath] : [...staticPages];
+
+    // Revalidate all paths
+    for (const path of pathsToRevalidate) {
+      await fetch(new URL(path, req.url), { method: 'POST', headers: { 'x-revalidate': 'true' } });
+    }
+
+    return new Response(JSON.stringify({
       revalidated: true,
       paths: pathsToRevalidate,
-    });
-  } catch (error) {
-    console.error("❌ Revalidation error:", error);
-    return NextResponse.json(
-      { message: "Error during revalidation", error: error.message },
-      { status: 500 }
-    );
+      message: 'Revalidation successful'
+    }), { status: 200 });
+
+  } catch (err) {
+    console.error('Revalidation failed:', err);
+    return new Response(JSON.stringify({ message: 'Error revalidating', error: err.message }), { status: 500 });
   }
 }
