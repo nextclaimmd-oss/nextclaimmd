@@ -1,63 +1,50 @@
-// app/api/revalidate/route.js
-import { revalidatePath } from "next/cache";
-import { NextResponse } from "next/server";
+// /app/api/revalidate/route.js
+import { revalidatePath } from 'next/cache';
+import { NextResponse } from 'next/server';
 
 export async function POST(req) {
-  const SECRET = "myrevalidatesecret";
+  const secret = 'myrevalidatesecret';
   const { searchParams } = new URL(req.url);
 
-  // 1️⃣ Verify secret
-  if (searchParams.get("secret") !== SECRET) {
-    return NextResponse.json({ message: "Invalid secret" }, { status: 401 });
+  // Check webhook secret
+  if (searchParams.get('secret') !== secret) {
+    return NextResponse.json({ message: 'Invalid token' }, { status: 401 });
   }
 
   try {
     const body = await req.json();
+    const slug = body?.slug;
+    const type = body?.type;
 
-    if (!body || !body.type) {
-      return NextResponse.json({ message: "Missing type in payload" }, { status: 400 });
+    if (!slug || !type) {
+      return NextResponse.json({ message: 'Missing slug or type' }, { status: 400 });
     }
 
-    const { type, slug } = body;
+    // Define paths to revalidate
+    const staticPaths = ['home', '/services', '/blogs', '/careers', '/about','/contact'];
 
-    let path = "";
+    const pathMap = {
+      services: `/services/${slug}`,
+      blogs: `/blogs/${slug}`,
+   
+    };
 
-    // 2️⃣ Handle static pages
-    if (["home", "careers", "about", "contact"].includes(type)) {
-      switch (type) {
-        case "home":
-          path = "/";
-          break;
-        case "careers":
-          path = "/careers";
-          break;
-        case "about":
-          path = "/about";
-          break;
-        case "contact":
-          path = "/contact";
-          break;
-      }
-    } 
-    // 3️⃣ Handle dynamic pages
-    else if (["services", "blogs"].includes(type)) {
-      if (!slug) {
-        return NextResponse.json({ message: "Missing slug for dynamic page", status: 400 });
-      }
-      path = `/${type}/${slug}`;
-    } 
-    else {
-      return NextResponse.json({ message: "Unknown type", status: 400 });
+    const dynamicPath = pathMap[type];
+
+    if (!dynamicPath) {
+      return NextResponse.json({ message: 'Invalid type' }, { status: 400 });
     }
 
-    // 4️⃣ Revalidate the path
-    await revalidatePath(path);
-    console.log(`✅ Revalidated: ${path}`);
+    // Revalidate all relevant paths — with await
+    const revalidatedPaths = [dynamicPath, ...staticPaths];
 
-    return NextResponse.json({ revalidated: true, path, message: "Revalidation successful" });
+    for (const path of revalidatedPaths) {
+      await revalidatePath(path); // ✅ Important to await
+    }
 
+    return NextResponse.json({ revalidated: true, paths: revalidatedPaths });
   } catch (err) {
-    console.error("❌ Revalidation error:", err);
-    return NextResponse.json({ message: "Error revalidating", error: err.message }, { status: 500 });
+    console.error('Revalidation error:', err);
+    return NextResponse.json({ message: 'Error revalidating', error: err.message }, { status: 500 });
   }
 }
