@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export async function POST(req) {
   try {
     // ✅ 1. Verify the secret
-    const secret = "myrevalidatesecret"
+    const secret = "myrevalidatesecret";
     const { searchParams } = new URL(req.url);
 
     if (searchParams.get('secret') !== secret) {
@@ -13,41 +13,47 @@ export async function POST(req) {
 
     // ✅ 2. Parse JSON body safely
     const body = await req.json().catch(() => null);
-
     if (!body) {
       return NextResponse.json({ message: 'Invalid JSON body' }, { status: 400 });
     }
 
     const { slug, type } = body;
-
-    if (!slug || !type) {
-      return NextResponse.json({ message: 'Missing slug or type' }, { status: 400 });
+    if (!slug && type !== 'static') {
+      return NextResponse.json({ message: 'Missing slug or type', status: 400 });
     }
 
     // ✅ 3. Define static and dynamic paths
     const staticPaths = ['/', '/careers', '/about', '/contact'];
-    const pathMap = {
-      services: `/services/${slug}`,
-      blogs: `/blogs/${slug}`,
-    };
 
-    const dynamicPath = pathMap[type];
+    let pathsToRevalidate = [];
 
-    if (!dynamicPath) {
-      return NextResponse.json({ message: 'Invalid type' }, { status: 400 });
+    if (type === 'static') {
+      // Only revalidate static page
+      if (!staticPaths.includes(slug)) {
+        return NextResponse.json({ message: 'Invalid static slug', status: 400 });
+      }
+      pathsToRevalidate.push(slug);
+    } else {
+      // Dynamic page revalidation
+      const pathMap = {
+        services: `/services/${slug}`,
+        blogs: `/blogs/${slug}`,
+      };
+      const dynamicPath = pathMap[type];
+      if (!dynamicPath) {
+        return NextResponse.json({ message: 'Invalid type', status: 400 });
+      }
+      pathsToRevalidate.push(dynamicPath);
     }
 
-    // ✅ 4. Revalidate both dynamic and static paths
-    const revalidatedPaths = [dynamicPath, ...staticPaths];
-
-    for (const path of revalidatedPaths) {
+    // ✅ 4. Revalidate paths
+    for (const path of pathsToRevalidate) {
       await revalidatePath(path);
     }
 
-    // ✅ 5. Respond with success
     return NextResponse.json({
       revalidated: true,
-      paths: revalidatedPaths,
+      paths: pathsToRevalidate,
       message: 'Revalidation completed successfully.',
     });
   } catch (err) {
