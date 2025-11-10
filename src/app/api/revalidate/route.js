@@ -1,29 +1,31 @@
-// /app/api/revalidate/route.js
 import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 
 export async function POST(req) {
-  const secret = 'myrevalidatesecret'; // 🧠 change this to any strong secret key
-  const { searchParams } = new URL(req.url);
-
-  // ✅ Step 1: Verify secret
-  if (searchParams.get('secret') !== secret) {
-    return NextResponse.json({ message: 'Invalid token' }, { status: 401 });
-  }
-
   try {
-    const body = await req.json();
-    const slug = body?.slug;
-    const type = body?.type; // e.g., "service" or "blog"
+    // ✅ 1. Verify the secret
+    const secret = 'myrevalidatesecret'
+    const { searchParams } = new URL(req.url);
+
+    if (searchParams.get('secret') !== secret) {
+      return NextResponse.json({ message: 'Invalid secret' }, { status: 401 });
+    }
+
+    // ✅ 2. Parse JSON body safely
+    const body = await req.json().catch(() => null);
+
+    if (!body) {
+      return NextResponse.json({ message: 'Invalid JSON body' }, { status: 400 });
+    }
+
+    const { slug, type } = body;
 
     if (!slug || !type) {
       return NextResponse.json({ message: 'Missing slug or type' }, { status: 400 });
     }
 
-    // ✅ Step 2: Define static paths to revalidate
+    // ✅ 3. Define static and dynamic paths
     const staticPaths = ['/', '/careers', '/about', '/contact'];
-
-    // ✅ Step 3: Define how dynamic paths are mapped
     const pathMap = {
       service: `/services/${slug}`,
       blog: `/blogs/${slug}`,
@@ -35,16 +37,21 @@ export async function POST(req) {
       return NextResponse.json({ message: 'Invalid type' }, { status: 400 });
     }
 
-    // ✅ Step 4: Revalidate both the dynamic and static paths
+    // ✅ 4. Revalidate both dynamic and static paths
     const revalidatedPaths = [dynamicPath, ...staticPaths];
 
     for (const path of revalidatedPaths) {
       await revalidatePath(path);
     }
 
-    return NextResponse.json({ revalidated: true, paths: revalidatedPaths });
+    // ✅ 5. Respond with success
+    return NextResponse.json({
+      revalidated: true,
+      paths: revalidatedPaths,
+      message: 'Revalidation completed successfully.',
+    });
   } catch (err) {
-    console.error('Revalidation error:', err);
+    console.error('❌ Revalidation error:', err);
     return NextResponse.json(
       { message: 'Error revalidating', error: err.message },
       { status: 500 }
