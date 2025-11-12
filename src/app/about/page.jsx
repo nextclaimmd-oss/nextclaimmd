@@ -6,7 +6,6 @@ import OurProcess from "../components/AboutComponent/WorkProcess";
 import CallToActions from "../components/AboutComponent/CalltoAction";
 import { client } from "@/sanity/lib/client";
 
-export const revalidate = 0;
 const page = async () => {
   const query = `*[_type == "about"][0]`;
   const aboutData = await client.fetch(query);

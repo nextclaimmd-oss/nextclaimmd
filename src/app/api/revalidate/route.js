@@ -1,47 +1,51 @@
-import { NextResponse } from 'next/server';
-import { revalidatePath } from 'next/cache'; // ✅ needed import
+import { revalidatePath } from "next/cache";
+import { NextResponse } from "next/server";
 
 const REVALIDATE_SECRET = process.env.SANITY_REVALIDATE_SECRET || "mySuperSecretKey123";
 
 export async function POST(request) {
   try {
-    const body = await request.json();
-
-    const secret = request.nextUrl.searchParams.get('secret');
+    // Verify secret token
+    const secret = request.nextUrl.searchParams.get("secret");
     if (secret !== REVALIDATE_SECRET) {
-      return NextResponse.json({ message: 'Invalid secret' }, { status: 401 });
+      return NextResponse.json({ message: "Invalid secret" }, { status: 401 });
     }
 
+    const body = await request.json();
     const { _type, slug } = body;
 
+    console.log("🔔 Revalidation request received for:", _type, slug?.current);
+
+    // Revalidate logic for your pages
     switch (_type) {
-      case 'services':
+      case "home":
+        revalidatePath("/");
+        break;
+
+      case "services":
+        revalidatePath("/services");
         if (slug?.current) revalidatePath(`/services/${slug.current}`);
-        revalidatePath('/services');
         break;
 
-      case 'blogs':
+      case "blogs":
+        revalidatePath("/blogs");
         if (slug?.current) revalidatePath(`/blogs/${slug.current}`);
-        revalidatePath('/blogs');
         break;
 
-      case 'home':
-        revalidatePath('/');
-        break;
-
-      case 'careers':
-      case 'about':
-      case 'contact':
+      case "careers":
+      case "about":
+      case "contact":
         revalidatePath(`/${_type}`);
         break;
 
       default:
-        revalidatePath('/');
+        console.warn("⚠️ Unhandled document type:", _type);
+        revalidatePath("/");
     }
 
-    return NextResponse.json({ revalidated: true });
+    return NextResponse.json({ revalidated: true, now: Date.now() });
   } catch (err) {
-    console.error(err);
-    return NextResponse.json({ message: 'Error revalidating' }, { status: 500 });
+    console.error("❌ Revalidation error:", err);
+    return NextResponse.json({ message: "Error revalidating", error: err.message }, { status: 500 });
   }
 }

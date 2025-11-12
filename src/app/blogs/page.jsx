@@ -2,7 +2,6 @@ import { client } from "@/sanity/lib/client";
 import BlogHeaderImages from "../components/Blog/BlogHeaderImage";
 import BlogCardss from "../components/Blog/BlogCards";
 import BlogIntroduction from "../components/Blog/BlogIntro";
-export const revalidate = 0;
 
 const page = async () => {
   const query = `*[_type =="blogs"]`;

@@ -3,7 +3,6 @@ import ServiceDetailPage from "@/app/components/Services/ServiceDetailPage";
 import { client } from "@/sanity/lib/client";
 
 export const dynamicParams = true;
-export const revalidate = 0; // ✅ fully rely on on-demand revalidation
 
 // Generate static params for ISR fallback
 export async function generateStaticParams() {
