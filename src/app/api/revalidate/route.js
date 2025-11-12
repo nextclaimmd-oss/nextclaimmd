@@ -2,56 +2,35 @@ import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  const SECRET = "nextclaimrevalidation";
+  const SECRET = "nextclaimrevalidation"; 
   const { searchParams } = new URL(req.url);
 
+  // ✅ 1. Verify secret key
   if (searchParams.get("secret") !== SECRET) {
     return NextResponse.json({ message: "Invalid secret" }, { status: 401 });
   }
 
   try {
     const body = await req.json();
-    const doc = body?.document || body || {};
-    const type = doc?._type || body?._type || null;
-    const slug = doc?.slug?.current || doc?.slug || null;
+    const docType = body._type;
+    const slug = body.slug?.current;
 
-    const pathMap = {
-      home: ["/"],
-      about: ["/about"],
-      contact: ["/contact"],
-      careers: ["/careers"],
-      services: ["/services"],
-      blogs: ["/blogs"],
-    };
+    // ✅ 2. Revalidate static pages
+    const staticPages = ["/", "/about", "/contact", "/careers", "/services", "/blogs"];
+    staticPages.forEach((path) => revalidatePath(path));
 
-    const pathsToRevalidate = [];
-
-    if (type === "service" && slug) {
-      pathsToRevalidate.push(`/services/${slug}`);
-      pathsToRevalidate.push("/services");
-    } else if (type === "blog" && slug) {
-      pathsToRevalidate.push(`/blogs/${slug}`);
-      pathsToRevalidate.push("/blogs");
-    } else if (pathMap[type]) {
-      pathsToRevalidate.push(...pathMap[type]);
-    } else {
-      pathsToRevalidate.push("/");
+    // ✅ 3. Revalidate dynamic pages (services + blogs)
+    if (docType === "services" && slug) {
+      revalidatePath(`/services/${slug}`);
     }
 
-    for (const path of pathsToRevalidate) {
-      await revalidatePath(path);
-      console.log(`✅ Revalidated: ${path}`);
+    if (docType === "blogs" && slug) {
+      revalidatePath(`/blogs/${slug}`);
     }
 
-    return NextResponse.json({
-      revalidated: true,
-      paths: pathsToRevalidate,
-    });
-  } catch (error) {
-    console.error("❌ Revalidation error:", error);
-    return NextResponse.json(
-      { message: "Error during revalidation", error: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ revalidated: true, now: Date.now() });
+  } catch (err) {
+    console.error("Revalidation error:", err);
+    return NextResponse.json({ message: "Error during revalidation" }, { status: 500 });
   }
 }
