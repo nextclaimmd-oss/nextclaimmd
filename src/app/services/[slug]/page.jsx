@@ -1,6 +1,7 @@
 import ServiceDetailPage from "@/app/components/Services/ServiceDetailPage";
 import { client } from "@/sanity/lib/client";
 
+export const dynamicParams = true;
 // ✅ Generate static params for all service pages
 export async function generateStaticParams() {
   const query = `*[_type == "services"]{ "slug": slug.current }`;
