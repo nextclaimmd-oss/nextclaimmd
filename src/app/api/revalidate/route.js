@@ -1,70 +1,75 @@
-// /app/api/revalidate/route.js
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
+// ⚠️ IMPORTANT: Get the secret key from environment variables.
+// You must set REVALIDATION_SECRET in your .env.local and deployment configuration.
+const REVALIDATION_SECRET = process.env.REVALIDATION_SECRET;
+
 export async function POST(req) {
+  // 1. Secret Validation
+  const { searchParams } = new URL(req.url);
+
+  if (searchParams.get("secret") !== REVALIDATION_SECRET) {
+    // If the secret doesn't match, block the request immediately.
+    return NextResponse.json({ message: "Invalid token" }, { status: 401 });
+  }
+
   try {
-    // ✅ Secret to validate the webhook
-    const secret = "nextclaimrevalidation";
-
-    // ✅ Construct absolute URL for Vercel / local
-    const { searchParams } = new URL(
-      req.url,
-      process.env.NEXT_PUBLIC_BASE_URL || "https://nextclaimmd.vercel.app"
-    );
-
-    // ✅ Check secret
-    if (searchParams.get("secret") !== secret) {
-      console.warn("Invalid token in webhook call");
-      return NextResponse.json({ message: "Invalid token" }, { status: 401 });
-    }
-
-    // ✅ Parse request body
+    // 2. Parse the Webhook Body
     const body = await req.json();
     const slug = body?.slug;
     const type = body?.type;
 
-    console.log("Webhook received:", body);
-
     if (!slug || !type) {
-      console.error("Missing slug or type in webhook");
-      return NextResponse.json({ message: "Missing slug or type" }, { status: 400 });
+      return NextResponse.json(
+        { message: "Missing required properties: slug or type in webhook body" },
+        { status: 400 }
+      );
     }
 
-    // ✅ Define static paths to revalidate
-    const staticPaths = ["/", "/blogs", "/services", "/careers", "/contact", "/about"];
+    // 3. Define Paths to Revalidate
+    // Static paths (like index, list pages) that might reference the updated content
+    const staticPaths = [
+      "/",
+      "/blogs",
+      "/services",
+      "/careers",
+      "/contact",
+      "/about",
+    ];
 
-    // ✅ Map type to dynamic path
+    // Map Sanity document type (e.g., 'blogs') to the dynamic route structure
     const pathMap = {
-      blogs: `/blogs/${slug}`,      // matches /app/blogs/[slug]/page.js
-      services: `/services/${slug}` // matches /app/services/[slug]/page.js
+      services: `/services/${slug}`,
+      blogs: `/blogs/${slug}`,
     };
 
     const dynamicPath = pathMap[type];
 
     if (!dynamicPath) {
-      console.error("Invalid type in webhook:", type);
-      return NextResponse.json({ message: "Invalid type" }, { status: 400 });
+        // If it's an unmapped type (like a site config), we will only revalidate static paths
+        console.warn(`Webhook received for unmapped type: ${type}. Only static paths will be revalidated.`);
     }
 
-    // ✅ Revalidate all relevant paths
-    const revalidatedPaths = [dynamicPath, ...staticPaths];
+    // 4. Execute Revalidation
+    const pathsToRevalidate = dynamicPath
+      ? [dynamicPath, ...staticPaths] // Revalidate the dynamic page AND all static list pages
+      : staticPaths; // Only revalidate static pages if no dynamic path is found
 
-    for (const path of revalidatedPaths) {
-      console.log("Revalidating path:", path);
-      await revalidatePath(path); // Important to await
+    // Use await revalidatePath for each path to ensure the cache is fully cleared
+    for (const path of pathsToRevalidate) {
+      await revalidatePath(path);
     }
 
-    console.log("Revalidation successful for paths:", revalidatedPaths);
-
+    // 5. Success Response
     return NextResponse.json({
       revalidated: true,
-      paths: revalidatedPaths,
-      message: "Revalidation successful"
+      paths: pathsToRevalidate,
+      message: `Successfully revalidated ${pathsToRevalidate.length} paths for type: ${type}.`,
     });
-
   } catch (err) {
-    console.error("Error in revalidation route:", err);
+    console.error("Revalidation error:", err);
+    // 6. Error Response
     return NextResponse.json(
       { message: "Error revalidating", error: err.message },
       { status: 500 }
