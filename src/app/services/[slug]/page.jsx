@@ -15,7 +15,7 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }) {
-  const { slug } = params;
+  const { slug } = await params; // keep await if your setup requires it
 
   // Fetch current service data
   const query = `*[_type == "services" && slug.current == $slug][0]`;
