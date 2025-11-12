@@ -1,51 +1,63 @@
-import { revalidatePath } from "next/cache";
-import { NextResponse } from "next/server";
+// /app/api/revalidate/route.js
+import { revalidatePath } from 'next/cache';
+import { NextResponse } from 'next/server';
 
-const REVALIDATE_SECRET = process.env.SANITY_REVALIDATE_SECRET || "mySuperSecretKey123";
+export async function POST(req) {
+  const secret = 'mySuperSecretKey123'; // same as in your webhook URL
+  const { searchParams } = new URL(req.url);
 
-export async function POST(request) {
+  // 🔐 Check webhook secret
+  if (searchParams.get('secret') !== secret) {
+    return NextResponse.json({ message: 'Invalid token' }, { status: 401 });
+  }
+
   try {
-    // Verify secret token
-    const secret = request.nextUrl.searchParams.get("secret");
-    if (secret !== REVALIDATE_SECRET) {
-      return NextResponse.json({ message: "Invalid secret" }, { status: 401 });
+    const body = await req.json();
+    const slug = body?.slug;
+    const type = body?._type; // note: use _type from Sanity projection
+
+    if (!type) {
+      return NextResponse.json({ message: 'Missing type' }, { status: 400 });
     }
 
-    const body = await request.json();
-    const { _type, slug } = body;
+    // 🧱 Static pages you always want to revalidate
+    const staticPaths = ['/', '/services', '/blogs', '/careers', '/about', '/contact'];
 
-    console.log("🔔 Revalidation request received for:", _type, slug?.current);
+    // 🧭 Dynamic path map
+    const pathMap = {
+      services: slug ? `/services/${slug}` : '/services',
+      blogs: slug ? `/blogs/${slug}` : '/blogs',
+    };
 
-    // Revalidate logic for your pages
-    switch (_type) {
-      case "home":
-        revalidatePath("/");
-        break;
+    // Determine which dynamic path to revalidate
+    const dynamicPath = pathMap[type];
 
-      case "services":
-        revalidatePath("/services");
-        if (slug?.current) revalidatePath(`/services/${slug.current}`);
-        break;
+    // 🧩 Combine all relevant paths
+    const revalidatedPaths = [];
 
-      case "blogs":
-        revalidatePath("/blogs");
-        if (slug?.current) revalidatePath(`/blogs/${slug.current}`);
-        break;
-
-      case "careers":
-      case "about":
-      case "contact":
-        revalidatePath(`/${_type}`);
-        break;
-
-      default:
-        console.warn("⚠️ Unhandled document type:", _type);
-        revalidatePath("/");
+    // Revalidate the main affected path
+    if (dynamicPath) {
+      await revalidatePath(dynamicPath);
+      revalidatedPaths.push(dynamicPath);
     }
 
-    return NextResponse.json({ revalidated: true, now: Date.now() });
+    // Revalidate static pages (optional)
+    for (const path of staticPaths) {
+      await revalidatePath(path);
+      revalidatedPaths.push(path);
+    }
+
+    console.log('✅ Revalidated paths:', revalidatedPaths);
+
+    return NextResponse.json({
+      revalidated: true,
+      paths: revalidatedPaths,
+    });
   } catch (err) {
-    console.error("❌ Revalidation error:", err);
-    return NextResponse.json({ message: "Error revalidating", error: err.message }, { status: 500 });
+    console.error('❌ Revalidation error:', err);
+    return NextResponse.json(
+      { message: 'Error revalidating', error: err.message },
+      { status: 500 }
+    );
   }
 }
