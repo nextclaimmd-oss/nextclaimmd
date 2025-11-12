@@ -1,10 +1,13 @@
+// src/app/services/[slug]/page.js
 import ServiceDetailPage from "@/app/components/Services/ServiceDetailPage";
 import { client } from "@/sanity/lib/client";
 
 export const dynamicParams = true;
-// ✅ Generate static params for all service pages
+export const revalidate = 0; // ✅ fully rely on on-demand revalidation
+
+// Generate static params for ISR fallback
 export async function generateStaticParams() {
-  const query = `*[_type == "services"]{ "slug": slug.current }`;
+  const query = `*[_type == "services" && defined(slug.current)]{ "slug": slug.current }`;
   const services = await client.fetch(query);
 
   return services.map((service) => ({
@@ -13,19 +16,22 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }) {
-  // ✅ Await params before destructuring
-  const { slug } = await params;
+  const { slug } = await params; // keep await if your setup requires it
 
   // Fetch current service data
-  const query = `*[_type == "services" && slug.current == '${slug}'][0]`;
-  const serviceData = await client.fetch(query);
+  const query = `*[_type == "services" && slug.current == $slug][0]`;
+  const serviceData = await client.fetch(query, { slug });
 
-  // Fetch related services (excluding current one)
-  const relatedQuery = `*[_type == "services" && slug.current != '${slug}']{
+  if (!serviceData) {
+    return <div>Service not found</div>;
+  }
+
+  // Fetch related services excluding current
+  const relatedQuery = `*[_type == "services" && slug.current != $slug]{
     mainTitle,
     "slug": slug.current
   }`;
-  const relatedServices = await client.fetch(relatedQuery);
+  const relatedServices = await client.fetch(relatedQuery, { slug });
 
   return (
     <main>
