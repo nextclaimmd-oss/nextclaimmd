@@ -4,6 +4,8 @@ import WhyWorkWithUs from "../components/CareersComp/CompanyBenifits";
 import JobOpenings from "../components/CareersComp/Jobs";
 import { client } from "@/sanity/lib/client";
 
+export const revalidate = 0;
+
 const page = async () => {
   const query = `*[_type == "careers"][0]`;
 

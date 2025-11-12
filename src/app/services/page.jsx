@@ -3,6 +3,7 @@ import ServiceAction from "../components/Services/ServiceCallToAction";
 import ServicesCardList from "../components/Services/ServiceCards";
 import ServiceIntroduction from "../components/Services/ServicesIntro";
 
+export const revalidate = 0;
 const page = async (props) => {
   const params = props.params;
   const query = `*[_type == "services" && slug.current != '${params.slug}']{
