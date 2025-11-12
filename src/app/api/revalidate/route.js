@@ -1,9 +1,8 @@
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
-// ⚠️ IMPORTANT: Get the secret key from environment variables.
-// You must set REVALIDATION_SECRET in your .env.local and deployment configuration.
-const REVALIDATION_SECRET = process.env.REVALIDATION_SECRET;
+
+const REVALIDATION_SECRET = process.env.REVALIDATION_SECRET || "nextclaimrevalidation";
 
 export async function POST(req) {
   // 1. Secret Validation
