@@ -22,7 +22,6 @@ export async function POST(req) {
       return NextResponse.json({ message: "Missing slug or type" }, { status: 400 });
     }
 
-    // ✅ Define your static and dynamic paths
     const staticPaths = ["/", "/blogs", "/services", "/careers", "/contact", "/about"];
 
     const pathMap = {
