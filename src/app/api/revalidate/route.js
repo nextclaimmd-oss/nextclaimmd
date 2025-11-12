@@ -1,62 +1,54 @@
-// /app/api/revalidate/route.js
-import { revalidatePath } from 'next/cache';
-import { NextResponse } from 'next/server';
+import { revalidatePath } from "next/cache";
+import { NextResponse } from "next/server";
 
 export async function POST(req) {
-  const secret = 'mySuperSecretKey123'; // same as in your webhook URL
+  const secret = "mySuperSecretKey123"; // Change this to match your webhook secret
   const { searchParams } = new URL(req.url);
 
-  // 🔐 Check webhook secret
-  if (searchParams.get('secret') !== secret) {
-    return NextResponse.json({ message: 'Invalid token' }, { status: 401 });
+  // Verify the secret
+  if (searchParams.get("secret") !== secret) {
+    return NextResponse.json({ message: "Invalid token" }, { status: 401 });
   }
 
   try {
     const body = await req.json();
-    const slug = body?.slug;
-    const type = body?._type; // note: use _type from Sanity projection
+    const slug = body?.slug?.current;
+    const type = body?._type;
 
     if (!type) {
-      return NextResponse.json({ message: 'Missing type' }, { status: 400 });
+      return NextResponse.json({ message: "Missing type" }, { status: 400 });
     }
 
-    // 🧱 Static pages you always want to revalidate
-    const staticPaths = ['/', '/services', '/blogs', '/careers', '/about', '/contact'];
+    // Static pages you always want revalidated
+    const staticPaths = ["/", "/about", "/contact", "/careers"];
 
-    // 🧭 Dynamic path map
+    // Map Sanity document types to their frontend routes
     const pathMap = {
-      services: slug ? `/services/${slug}` : '/services',
-      blogs: slug ? `/blogs/${slug}` : '/blogs',
+      services: slug ? `/services/${slug}` : "/services",
+      blogs: slug ? `/blogs/${slug}` : "/blogs",
+      home: "/",
     };
 
-    // Determine which dynamic path to revalidate
-    const dynamicPath = pathMap[type];
+    // Determine which path to revalidate
+    const dynamicPath = pathMap[type] || null;
 
-    // 🧩 Combine all relevant paths
-    const revalidatedPaths = [];
+    // Collect all paths to revalidate
+    const revalidatedPaths = [...staticPaths];
+    if (dynamicPath) revalidatedPaths.push(dynamicPath);
 
-    // Revalidate the main affected path
-    if (dynamicPath) {
-      await revalidatePath(dynamicPath);
-      revalidatedPaths.push(dynamicPath);
-    }
-
-    // Revalidate static pages (optional)
-    for (const path of staticPaths) {
+    // Revalidate each one
+    for (const path of revalidatedPaths) {
       await revalidatePath(path);
-      revalidatedPaths.push(path);
     }
-
-    console.log('✅ Revalidated paths:', revalidatedPaths);
 
     return NextResponse.json({
       revalidated: true,
       paths: revalidatedPaths,
     });
   } catch (err) {
-    console.error('❌ Revalidation error:', err);
+    console.error("Revalidation error:", err);
     return NextResponse.json(
-      { message: 'Error revalidating', error: err.message },
+      { message: "Error revalidating", error: err.message },
       { status: 500 }
     );
   }
