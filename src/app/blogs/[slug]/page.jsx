@@ -1,6 +1,9 @@
 import BlogDetailComponent from "@/app/components/Blog/BlogDetailComponent";
 import { client } from "@/sanity/lib/client";
 
+export const dynamic = "force-dynamic";
+
+export const dynamicParams = true;
 // ✅ Generate static params for SSG
 export async function generateStaticParams() {
   const query = `*[_type == "blogs"]{ "slug": slug.current }`;
@@ -12,8 +15,7 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }) {
-  // ✅ Await params before using
-  const { slug } = await params;
+  const { slug } = params;
 
   const query = `*[_type == "blogs" && slug.current == '${slug}'][0]`;
   const blogData = await client.fetch(query);
