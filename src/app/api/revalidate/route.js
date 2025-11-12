@@ -1,4 +1,3 @@
-// app/api/revalidate/route.js
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
@@ -6,38 +5,39 @@ export async function POST(req) {
   const SECRET = "nextclaimrevalidation";
   const { searchParams } = new URL(req.url);
 
-  // Verify secret
   if (searchParams.get("secret") !== SECRET) {
-    return NextResponse.json({ message: "Invalid token" }, { status: 401 });
+    return NextResponse.json({ message: "Invalid secret" }, { status: 401 });
   }
 
   try {
     const body = await req.json();
+    const doc = body?.document || body || {};
+    const type = doc?._type || body?._type || null;
+    const slug = doc?.slug?.current || doc?.slug || null;
 
-    // Sanity sends either {_type: "..."} or {document: {_type: "..."}}
-    const type =
-      body?._type || body?.type || body?.document?._type || null;
-
-    // Map your Sanity document types to actual routes
     const pathMap = {
-      home: "/",
-      services: "/services",
-      blogs: "/blogs",
-      careers: "/careers",
-      contact: "/contact",
-      about: "/about",
-      
+      home: ["/"],
+      about: ["/about"],
+      contact: ["/contact"],
+      careers: ["/careers"],
+      services: ["/services"],
+      blogs: ["/blogs"],
     };
 
-   
-    const targetPath = pathMap[type];
+    const pathsToRevalidate = [];
 
-    // Otherwise revalidate all static pages as fallback
-    const pathsToRevalidate = targetPath
-      ? [targetPath]
-      : Object.values(pathMap);
+    if (type === "service" && slug) {
+      pathsToRevalidate.push(`/services/${slug}`);
+      pathsToRevalidate.push("/services");
+    } else if (type === "blog" && slug) {
+      pathsToRevalidate.push(`/blogs/${slug}`);
+      pathsToRevalidate.push("/blogs");
+    } else if (pathMap[type]) {
+      pathsToRevalidate.push(...pathMap[type]);
+    } else {
+      pathsToRevalidate.push("/");
+    }
 
-    // Revalidate each path
     for (const path of pathsToRevalidate) {
       await revalidatePath(path);
       console.log(`✅ Revalidated: ${path}`);
