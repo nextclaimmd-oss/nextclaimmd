@@ -17,7 +17,7 @@ export default function Navbar() {
             <p>
               Office Hours:{" "}
               <span className="font-medium">
-                Monday - Saturday 09:00 AM - 04:00 AM
+                Monday - Friday 08:00 AM - 04:00 PM
               </span>
             </p>
           </div>
