@@ -163,5 +163,30 @@ export const home = {
       ],
   
     },
+    {
+  name: "specialties",
+  title: "Specialties",
+  type: "array",
+  of: [
+    {
+      type: "string",
+      title: "Specialty",
+    },
+  ],
+  description: "List of medical specialties shown in the homepage grid.",
+},
+{
+  name: "phoneNumber",
+  title: "Phone Number",
+  type: "string",
+  description: "The phone number shown in the Call to Action section."
+},
+{
+  name: "emailAddress",
+  title: "Email Address",
+  type: "string",
+  description: "The email shown in the Call to Action section."
+}
+
     ]
 }

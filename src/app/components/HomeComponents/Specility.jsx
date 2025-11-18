@@ -1,4 +1,4 @@
-export default function Specialties() {
+export default function Specialties({ homeData }) {
   const specialties = [
     "Laboratory Billing",
     "Urology",
@@ -28,7 +28,7 @@ export default function Specialties() {
 
         {/* Specialties Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 mt-8">
-          {specialties.map((item, idx) => (
+          {homeData?.specialties?.map((item, idx) => (
             <div
               key={idx}
               className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/10 backdrop-blur-sm p-6 cursor-default transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-cyan-500/20"

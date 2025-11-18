@@ -46,13 +46,13 @@ export default function WhyChooseUs({ homeData }) {
             <h3 className="text-6xl font-extrabold text-[#1e2641] mb-2">97%</h3>
             <p className="text-gray-600 mb-6">
               Based on ratings from over{" "}
-              <span className="font-semibold">400+</span> healthcare providers
+              <span className="font-semibold">50+</span> healthcare providers
               nationwide.
             </p>
           </div>
 
           {/* Card 2 */}
-          <div className="flex-1 bg-white/90 backdrop-blur-md shadow-xl p-8 rounded-3xl border border-gray-100 hover:shadow-2xl transition">
+          {/* <div className="flex-1 bg-white/90 backdrop-blur-md shadow-xl p-8 rounded-3xl border border-gray-100 hover:shadow-2xl transition">
             <div className="bg-[#1e2641]/10 inline-block px-4 py-1 rounded-full text-[#1e2641] text-sm font-semibold mb-4">
               Expertise
             </div>
@@ -63,7 +63,7 @@ export default function WhyChooseUs({ homeData }) {
               Certified medical billers and coders delivering unmatched accuracy
               across every specialty.
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

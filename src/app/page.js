@@ -34,10 +34,10 @@ export default async function Home() {
         <ServiceLocation homeData={homeData}/>
       </section>
       <section>
-        <Specialties />
+        <Specialties homeData={homeData}/>
       </section>
       <section>
-        <CallToAction />
+        <CallToAction homeData={homeData}/>
       </section>
       
     </main>
