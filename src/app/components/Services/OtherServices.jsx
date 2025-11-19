@@ -2,17 +2,8 @@ import { CheckCircle } from "lucide-react";
 import Link from "next/link";
 
 export default function ServicesList({ relatedServices }) {
-  const services = [
-    { title: "Laboratory Billing" },
-    { title: "Urology" },
-    { title: "Cardiology" },
-    { title: "Behavioral Health" },
-    { title: "Urgent Care" },
-    { title: "Orthopedics" },
-  ];
-
   return (
-    <section className="py-16 px-6 bg-gradient-to-br from-sky-50 to-white">
+    <section className=" px-6 ">
       <div className="max-w-6xl mx-auto text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-mono font-bold text-gray-900">
           Our Specialized Medical Billing Services

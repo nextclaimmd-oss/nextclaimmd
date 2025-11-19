@@ -62,6 +62,21 @@ export const services = {
       ],
       description: "Main body content of the blog (supports text and images).",
     },
+     {
+      name: "listItemsTitle",
+      title: "List Items Title",
+      type: "string",
+      description: "List Items Title",
+    },
+    {
+      name: "listitems",
+      title: "List Items",
+      type: "array",
+      of: [
+        { type: "block" },
+      ],
+      description: "List Items of What is Offered in the Services",
+    },
     {
       name: "serviceContentTitle",
       title: "Service Content Title",

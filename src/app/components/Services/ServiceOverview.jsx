@@ -36,11 +36,11 @@ const PortableTextComponents = {
 
 export default function ServiceOverviews({ serviceData }) {
   return (
-    <section className="mb-12 mx-6 my-12">
+    <section className="mb-6 mx-6 my-12 ">
       <h1 className="font-bold font-mono text-3xl mb-4 leading-10 text-center max-w-4xl mx-auto">
         {serviceData.mainTitle}
       </h1>
-      <div className="prose prose-gray leading-8 max-w-5xl mx-auto">
+      <div className="prose prose-gray leading-8 max-w-4xl mx-auto text-center">
         <PortableText
           value={serviceData.overview}
           components={PortableTextComponents}

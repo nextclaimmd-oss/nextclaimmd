@@ -13,7 +13,7 @@ export default function BlogHeaderImages() {
           loading="lazy"
         />
       </div>
-
+      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent"></div>
       <div className="relative mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 text-center">
         <h1 className="text-4xl font-mono font-bold tracking-tight text-gray-900 dark:text-white">
           Read More Blogs

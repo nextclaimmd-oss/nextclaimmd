@@ -33,7 +33,7 @@ export default async function Page({ params }) {
   const relatedServices = await client.fetch(relatedQuery, { slug });
 
   return (
-    <main>
+    <main className="bg-gray-50">
       <ServiceDetailPage
         serviceData={serviceData}
         relatedServices={relatedServices}

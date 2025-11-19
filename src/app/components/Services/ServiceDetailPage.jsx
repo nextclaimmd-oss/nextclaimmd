@@ -3,6 +3,7 @@ import ServiceHeaderImages from "./ServiceBannerImage";
 import ServicesList from "./OtherServices";
 import ServiceContent from "./ServiceContentComp";
 import FAQSection from "./Faq";
+import SimpleTaskList from "./ItemList";
 
 const ServiceDetailPage = ({ serviceData, relatedServices }) => {
   return (
@@ -14,11 +15,14 @@ const ServiceDetailPage = ({ serviceData, relatedServices }) => {
         <ServiceOverviews serviceData={serviceData} />
       </section>
       <section>
-        <ServicesList relatedServices={relatedServices} />
+        <SimpleTaskList serviceData={serviceData} />
       </section>
       <section>
-        <ServiceContent serviceData={serviceData} />
+        <ServicesList relatedServices={relatedServices} />
       </section>
+      {/* <section>
+        <ServiceContent serviceData={serviceData} />
+      </section> */}
       <section>
         <FAQSection serviceData={serviceData} />
       </section>

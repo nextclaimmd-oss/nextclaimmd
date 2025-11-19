@@ -15,7 +15,10 @@ export default function ServiceHeaderImages({ serviceData }) {
         />
       </div>
 
-      {/* Overlay Content */}
+      {/* GRADIENT OVERLAY (Dark → Light) */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent"></div>
+
+      {/* Content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
         <h1 className="text-2xl md:text-4xl font-mono font-bold tracking-tight text-gray-900 dark:text-white">
           {serviceData.bannerTitle}

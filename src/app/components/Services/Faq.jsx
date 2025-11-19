@@ -11,8 +11,8 @@ export default function FAQSection({ serviceData }) {
   };
 
   return (
-    <section className="py-8 px-6 bg-white">
-      <div className="max-w-6xl mx-auto text-center mb-12">
+    <section className="py-8 mt-8 px-6">
+      <div className="max-w-4xl mx-auto text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-mono font-bold text-gray-900">
           Frequently Asked Questions
         </h2>
@@ -22,17 +22,19 @@ export default function FAQSection({ serviceData }) {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 gap-4 max-w-3xl mx-auto">
         {serviceData?.items?.map((faq, index) => (
           <div
             key={index}
-            className="border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow bg-gray-50 text-left"
+            className="border-2 border-gray-300 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow bg-gray-50 text-left"
           >
             <button
               onClick={() => toggleFAQ(index)}
               className="flex justify-between items-center w-full text-left"
             >
-              <h3 className="font-semibold text-gray-900">{faq.question}</h3>
+              <h3 className="font-mono font-semibold text-gray-900">
+                {faq.question}
+              </h3>
               <ChevronDown
                 className={`w-5 h-5 text-cyan-700 transform transition-transform ${
                   openIndex === index ? "rotate-180" : ""
