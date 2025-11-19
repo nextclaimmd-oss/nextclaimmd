@@ -38,7 +38,7 @@ export default function Navbar() {
             </div>
             <div className="flex items-center space-x-2">
               <FiHeadphones />
-              <Link href="tel:+923215024094" className="flex ">
+              <Link href="tel:8442122658" className="flex ">
                 <span className="font-bold hidden md:block pr-2">
                   Call Now:
                 </span>
