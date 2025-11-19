@@ -1,6 +1,14 @@
+import { client } from "@/sanity/lib/client";
 import Link from "next/link";
 
-export default function Footer() {
+export default async function Footer() {
+  const query = `*[_type == "home"][0]{
+  phonedetail,
+  emaildetail,
+  address
+}`;
+
+  const address = await client.fetch(query);
   return (
     <footer className="bg-gray-900 font-mono text-sm text-gray-300 pt-12 pb-6">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
@@ -58,9 +66,9 @@ export default function Footer() {
         {/* Contact */}
         <div>
           <h4 className="text-white text-lg font-semibold mb-4">Contact Us</h4>
-          <p className="text-sm mb-2">📍 1234 HealthCare Blvd, New York, NY</p>
-          <p className="text-sm mb-2">📞 (844) 212 2658</p>
-          <p className="text-sm">✉️ info@nextclaimmd.com</p>
+          <p className="text-sm mb-2">📍 {address?.address}</p>
+          <p className="text-sm mb-2">📞 {address?.phonedetail}</p>
+          <p className="text-sm">✉️ {address?.emaildetail}</p>
         </div>
       </div>
 

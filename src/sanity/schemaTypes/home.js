@@ -186,7 +186,25 @@ export const home = {
   title: "Email Address",
   type: "string",
   description: "The email shown in the Call to Action section."
-}
+},
+{
+      name: "phonedetail",
+      title: "Phone Number",
+      type: "string",
+      description: "The Phone Number.",
+    },
+    {
+      name: "emaildetail",
+      title: "Email Address",
+      type: "string",
+      description: "The Email Address.",
+    },
+    {
+      name: "address",
+      title: "Office Address",
+      type: "string",
+      description: "The Office Address.",
+    },
 
     ]
 }
