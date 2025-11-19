@@ -32,9 +32,7 @@ export default function FAQSection({ serviceData }) {
               onClick={() => toggleFAQ(index)}
               className="flex justify-between items-center w-full text-left"
             >
-              <h3 className="font-mono font-semibold text-gray-900">
-                {faq.question}
-              </h3>
+              <h3 className="font-semibold text-gray-900">{faq.question}</h3>
               <ChevronDown
                 className={`w-5 h-5 text-cyan-700 transform transition-transform ${
                   openIndex === index ? "rotate-180" : ""
