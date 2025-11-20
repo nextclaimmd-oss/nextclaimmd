@@ -1,7 +1,7 @@
 import { client } from "@/sanity/lib/client";
 
 export default async function sitemap() {
-  const baseUrl = "https://www.nextclaimmd.com/";
+  const baseUrl = "https://www.nextclaimmd.com";
 
   // Fetch dynamic slugs from Sanity
   const services = await client.fetch(`*[_type == "services"]{ "slug": slug.current }`);
