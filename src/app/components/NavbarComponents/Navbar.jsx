@@ -4,13 +4,14 @@ import MobileNavToggle from "./MobileNavbar";
 import logo from "@/app/assets/logonextclaim.PNG";
 import { FaClock, FaEnvelope, FaPhone } from "react-icons/fa";
 import { FiHeadphones } from "react-icons/fi";
+import { IoLocationOutline } from "react-icons/io5";
 
 export default function Navbar() {
   return (
     <header className="w-full shadow-md">
       {/* Top Level */}
       <div className="border-b text-white text-xs bg-cyan-900">
-        <div className="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center px-6 py-3 space-y-2 md:space-y-0">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center px-6 py-3 space-y-2 md:space-y-0">
           {/* Left: Hours */}
           <div className="flex items-center space-x-2">
             <FaClock className="text-white" />
@@ -19,6 +20,12 @@ export default function Navbar() {
               <span className="font-medium">
                 Monday - Friday 08:00 AM - 04:00 PM
               </span>
+            </p>
+          </div>
+          <div className="flex items-center space-x-2">
+            <IoLocationOutline className="text-white w-4 h-4" />
+            <p>
+              Address: <span className="font-medium">Sheridan, WY, USA</span>
             </p>
           </div>
 
