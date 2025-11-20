@@ -20,9 +20,7 @@ const ServiceDetailPage = ({ serviceData, relatedServices }) => {
       <section>
         <ServicesList relatedServices={relatedServices} />
       </section>
-      {/* <section>
-        <ServiceContent serviceData={serviceData} />
-      </section> */}
+
       <section>
         <FAQSection serviceData={serviceData} />
       </section>

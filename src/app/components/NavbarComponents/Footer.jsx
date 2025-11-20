@@ -3,8 +3,8 @@ import Link from "next/link";
 
 export default async function Footer() {
   const query = `*[_type == "home"][0]{
-  phonedetail,
-  emaildetail,
+  phoneNumber,
+  emailAddress,
   address
 }`;
 
@@ -56,7 +56,8 @@ export default async function Footer() {
             Our Services
           </h4>
           <ul className="space-y-2">
-            <li>Medical Billing</li>
+            <li>Virtual Assistant </li>
+            <li>Medical Billing and Coding</li>
             <li>Credentialing</li>
             <li>AR Management</li>
             <li>Healthcare Marketing</li>
@@ -67,8 +68,8 @@ export default async function Footer() {
         <div>
           <h4 className="text-white text-lg font-semibold mb-4">Contact Us</h4>
           <p className="text-sm mb-2">📍 {address?.address}</p>
-          <p className="text-sm mb-2">📞 {address?.phonedetail}</p>
-          <p className="text-sm">✉️ {address?.emaildetail}</p>
+          <p className="text-sm mb-2">📞 {address?.phoneNumber}</p>
+          <p className="text-sm">✉️ {address?.emailAddress}</p>
         </div>
       </div>
 

@@ -9,7 +9,7 @@ export const services = {
       type: "string",
       description: "Title On The Banner Image",
     },
-     {
+    {
       name: "descriptionBanner",
       title: "Description on the Banner",
       type: "text",
@@ -31,7 +31,7 @@ export const services = {
       type: "string",
       description: "Main Title of the Section",
     },
-    
+
     {
       name: "slug",
       title: "Slug",
@@ -62,7 +62,7 @@ export const services = {
       ],
       description: "Main body content of the blog (supports text and images).",
     },
-     {
+    {
       name: "listItemsTitle",
       title: "List Items Title",
       type: "string",
@@ -72,37 +72,8 @@ export const services = {
       name: "listitems",
       title: "List Items",
       type: "array",
-      of: [
-        { type: "block" },
-      ],
+      of: [{ type: "block" }],
       description: "List Items of What is Offered in the Services",
-    },
-    {
-      name: "serviceContentTitle",
-      title: "Service Content Title",
-      type: "string",
-      description: "Sercice Content Title",
-    },
-    {
-      name: "serviceContent",
-      title: "Service Content",
-      type: "array",
-      of: [
-        { type: "block" },
-        {
-          type: "image",
-          options: { hotspot: true },
-          fields: [
-            {
-              name: "alt",
-              title: "Alternative Text",
-              type: "string",
-              description: "Describe the image for accessibility and SEO.",
-            },
-          ],
-        },
-      ],
-      description: "Main body content of the blog (supports text and images).",
     },
     {
       name: "items",

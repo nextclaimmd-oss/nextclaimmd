@@ -1,21 +1,19 @@
 export const home = {
-    name: "home",
-    title: "Home",
-    type: "document",
-    fields:[
-         {
+  name: "home",
+  title: "Home",
+  type: "document",
+  fields: [
+    {
       name: "heading",
       title: "Heading",
       type: "string",
       description: "Main heading text for the hero section",
-      
     },
     {
       name: "description",
       title: "Description",
       type: "text",
       description: "Short description or tagline for the hero section",
-     
     },
     {
       name: "backgroundImage",
@@ -45,7 +43,8 @@ export const home = {
               name: "title",
               title: "Stat Title",
               type: "string",
-              description: "Example: 'Years of Experience', 'Satisfied Clients'.",
+              description:
+                "Example: 'Years of Experience', 'Satisfied Clients'.",
               validation: (Rule) => Rule.required(),
             },
             {
@@ -65,7 +64,6 @@ export const home = {
       title: "Second Heading",
       type: "string",
       description: "Main heading text (e.g., 'Next Claim MD Offers').",
-    
     },
     {
       name: "highlightText",
@@ -73,9 +71,8 @@ export const home = {
       type: "string",
       description:
         "The part of the heading highlighted in color (e.g., 'Electronic Medical Billing').",
-   
     },
-    
+
     {
       name: "seconddescription",
       title: "Intro Paragraph",
@@ -83,7 +80,6 @@ export const home = {
       rows: 4,
       description:
         "Main paragraph text describing the billing services or introduction section.",
-      
     },
     {
       name: "servicesList",
@@ -97,14 +93,12 @@ export const home = {
               name: "title",
               title: "Service Title",
               type: "string",
-
             },
             {
               name: "description",
               title: "Service Description",
               type: "text",
               rows: 2,
-              
             },
             {
               name: "icon",
@@ -112,7 +106,6 @@ export const home = {
               type: "string",
               description:
                 "Enter the icon name (e.g., 'FaFileMedical', 'FaUserMd', 'FaMoneyBillWave'). Use react-icons/fa names.",
-
             },
           ],
         },
@@ -140,7 +133,6 @@ export const home = {
       rows: 4,
       description:
         "A short paragraph describing the company's mission, approach, or key benefits.",
-     
     },
     {
       name: "services",
@@ -156,48 +148,34 @@ export const home = {
               name: "text",
               title: "Service Point",
               type: "string",
-             
             },
           ],
         },
       ],
-  
     },
     {
-  name: "specialties",
-  title: "Specialties",
-  type: "array",
-  of: [
-    {
-      type: "string",
-      title: "Specialty",
+      name: "specialties",
+      title: "Specialties",
+      type: "array",
+      of: [
+        {
+          type: "string",
+          title: "Specialty",
+        },
+      ],
+      description: "List of medical specialties shown in the homepage grid.",
     },
-  ],
-  description: "List of medical specialties shown in the homepage grid.",
-},
-{
-  name: "phoneNumber",
-  title: "Phone Number",
-  type: "string",
-  description: "The phone number shown in the Call to Action section."
-},
-{
-  name: "emailAddress",
-  title: "Email Address",
-  type: "string",
-  description: "The email shown in the Call to Action section."
-},
-{
-      name: "phonedetail",
+    {
+      name: "phoneNumber",
       title: "Phone Number",
       type: "string",
-      description: "The Phone Number.",
+      description: "The phone number shown in the Call to Action section.",
     },
     {
-      name: "emaildetail",
+      name: "emailAddress",
       title: "Email Address",
       type: "string",
-      description: "The Email Address.",
+      description: "The email shown in the Call to Action section.",
     },
     {
       name: "address",
@@ -205,6 +183,5 @@ export const home = {
       type: "string",
       description: "The Office Address.",
     },
-
-    ]
-}
+  ],
+};
