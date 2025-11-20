@@ -1,25 +1,35 @@
-import { client } from '@/sanity/lib/client';
+import { client } from "@/sanity/lib/client";
 
-const sitemap = async () => {
-  const posts = await client.fetch(`*[_type == "services" || _type == "blogs"]{
-    _type,
-    _updatedAt,
-    slug
-  }`);
+export default async function sitemap() {
+  const baseUrl = "https://www.nextclaimmd.com/";
 
-  const postEntries = posts.map((post) => {
-    let basePath = '';
+  // Fetch dynamic slugs from Sanity
+  const services = await client.fetch(`*[_type == "services"]{ "slug": slug.current }`);
+  const blogs = await client.fetch(`*[_type == "blogs"]{ "slug": slug.current }`);
 
-    if (post._type === 'services') basePath = 'services';
-    else if (post._type === 'blogs') basePath = 'blogs';
+  // Dynamic service pages
+  const serviceUrls = services.map((item) => ({
+    url: `${baseUrl}/services/${item.slug}`,
+    lastModified: new Date(),
+  }));
 
-    return {
-      url: `https://www.nextclaimmd.com/${basePath}/${post.slug.current}`,
-      lastModified: post._updatedAt, // You had `_createdAt` mistakenly
-    };
-  });
+  // Dynamic blog pages
+  const blogUrls = blogs.map((item) => ({
+    url: `${baseUrl}/blogs/${item.slug}`,
+    lastModified: new Date(),
+  }));
 
-  return postEntries;
-};
+  // Static pages (add your own)
+  const staticUrls = [
+    "",
+    "/about",
+    "/contact",
+    "/careers",
+    
+  ].map((path) => ({
+    url: `${baseUrl}${path}`,
+    lastModified: new Date(),
+  }));
 
-export default sitemap;
+  return [...staticUrls, ...serviceUrls, ...blogUrls];
+}
