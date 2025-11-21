@@ -85,5 +85,20 @@ export const contact = {
       type: "string",
       description: 'Email Address Below Second Title")',
     },
+    {
+      name: 'facebook',
+      title: 'Facebook URL',
+      type: 'url',
+    },
+    {
+      name: 'instagram',
+      title: 'Instagram URL',
+      type: 'url',
+    },
+    {
+      name: 'linkedin',
+      title: 'LinkedIn URL',
+      type: 'url',
+    }
     ]
 }

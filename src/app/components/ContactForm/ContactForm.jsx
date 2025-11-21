@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import { Mail, Phone } from "lucide-react";
+import Link from "next/link";
+import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 export default function ContactForms({ contactData }) {
   const [form, setForm] = useState({
@@ -77,9 +79,54 @@ export default function ContactForms({ contactData }) {
               <Mail className="text-cyan-700 w-5 h-5" />
               <span>{contactData.emailAddress}</span>
             </div>
+            <div className="flex space-x-5 mt-6 md:ml-8">
+              {/* Facebook */}
+              {contactData?.facebook && (
+                <Link
+                  href={contactData.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Visit us on Facebook"
+                >
+                  <FaFacebook
+                    size={24}
+                    className="text-blue-600 hover:scale-110 transition-transform"
+                  />
+                </Link>
+              )}
+
+              {/* Instagram */}
+              {contactData?.instagram && (
+                <Link
+                  href={contactData.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Visit us on Instagram"
+                >
+                  <FaInstagram
+                    size={24}
+                    className="text-red-600 hover:scale-110 transition-transform"
+                  />
+                </Link>
+              )}
+
+              {/* LinkedIn */}
+              {contactData?.linkedin && (
+                <Link
+                  href={contactData.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Visit us on LinkedIn"
+                >
+                  <FaLinkedin
+                    size={24}
+                    className="text-blue-600 hover:scale-110 transition-transform"
+                  />
+                </Link>
+              )}
+            </div>
           </div>
         </div>
-
         {/* RIGHT SECTION - CONTACT FORM */}
         <div className="bg-white rounded-2xl shadow-xl border-2 border-gray-400 p-8">
           <h3 className="text-2xl font-semibold font-mono text-gray-900 mb-6">
