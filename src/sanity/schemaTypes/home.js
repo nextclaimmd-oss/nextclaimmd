@@ -183,5 +183,20 @@ export const home = {
       type: "string",
       description: "The Office Address.",
     },
+    {
+      name: 'facebook',
+      title: 'Facebook URL',
+      type: 'url',
+    },
+    {
+      name: 'instagram',
+      title: 'Instagram URL',
+      type: 'url',
+    },
+    {
+      name: 'linkedin',
+      title: 'LinkedIn URL',
+      type: 'url',
+    }
   ],
 };

@@ -1,11 +1,15 @@
 import { client } from "@/sanity/lib/client";
 import Link from "next/link";
+import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 export default async function Footer() {
   const query = `*[_type == "home"][0]{
   phoneNumber,
   emailAddress,
-  address
+  address,
+  facebook,
+  instagram,
+  linkedin
 }`;
 
   const address = await client.fetch(query);
@@ -70,6 +74,52 @@ export default async function Footer() {
           <p className="text-sm mb-2">📍 {address?.address}</p>
           <p className="text-sm mb-2">📞 {address?.phoneNumber}</p>
           <p className="text-sm">✉️ {address?.emailAddress}</p>
+          <div className="flex space-x-5 mt-4">
+            {/* Facebook */}
+            {address?.facebook && (
+              <Link
+                href={address.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit us on Facebook"
+              >
+                <FaFacebook
+                  size={24}
+                  className="text-white hover:scale-110 transition-transform"
+                />
+              </Link>
+            )}
+
+            {/* Instagram */}
+            {address?.instagram && (
+              <Link
+                href={address.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit us on Instagram"
+              >
+                <FaInstagram
+                  size={24}
+                  className="text-red-600 hover:scale-110 transition-transform"
+                />
+              </Link>
+            )}
+
+            {/* LinkedIn */}
+            {address?.linkedin && (
+              <Link
+                href={address.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit us on LinkedIn"
+              >
+                <FaLinkedin
+                  size={24}
+                  className="text-blue-500 hover:scale-110 transition-transform"
+                />
+              </Link>
+            )}
+          </div>
         </div>
       </div>
 
