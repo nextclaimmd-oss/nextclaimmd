@@ -9,6 +9,11 @@ import CallToAction from "./components/HomeComponents/ContactUsHome";
 import ServiceLocation from "./components/HomeComponents/ServiceArea";
 import Specialties from "./components/HomeComponents/Specility";
 
+export const metadata = {
+  title: "Next ClaimMD",
+  description:
+    "Next ClaimMD provides reliable virtual Assistance, medical billing, coding, credentialing, revenue cycle management, and digital marketing services to help healthcare practices increase efficiency and maximize reimbursements.",
+};
 
 export default async function Home() {
   const query = `*[_type == "home"][0]`;
@@ -19,27 +24,26 @@ export default async function Home() {
         <HeroSections homeData={homeData} />
       </section>
       <section>
-        <StatsSection homeData={homeData}/>
+        <StatsSection homeData={homeData} />
       </section>
       <section>
-        <BillingIntro homeData={homeData}/>
+        <BillingIntro homeData={homeData} />
       </section>
       <section>
-        <ServicesSection homeData={homeData}/>
+        <ServicesSection homeData={homeData} />
       </section>
       <section>
-        <WhyChooseUs homeData={homeData}/>
+        <WhyChooseUs homeData={homeData} />
       </section>
       <section>
-        <ServiceLocation homeData={homeData}/>
+        <ServiceLocation homeData={homeData} />
       </section>
       <section>
-        <Specialties homeData={homeData}/>
+        <Specialties homeData={homeData} />
       </section>
       <section>
-        <CallToAction homeData={homeData}/>
+        <CallToAction homeData={homeData} />
       </section>
-      
     </main>
   );
 }

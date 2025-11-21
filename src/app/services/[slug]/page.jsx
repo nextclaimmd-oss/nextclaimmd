@@ -1,6 +1,7 @@
 // src/app/services/[slug]/page.js
 import ServiceDetailPage from "@/app/components/Services/ServiceDetailPage";
 import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
 
 export const dynamicParams = true;
 
@@ -12,6 +13,30 @@ export async function generateStaticParams() {
   return services.map((service) => ({
     slug: service.slug,
   }));
+}
+
+export async function generateMetadata(props) {
+  const params = await props.params;
+
+  const query = `*[_type == "services" && slug.current == $slug][0]{
+    metaTitle,
+    Metadescription,
+    image,
+  }`;
+
+  const services = await client.fetch(query, { slug: params.slug });
+
+  return {
+    title: services?.metaTitle,
+    description: services?.Metadescription,
+    openGraph: {
+      images: [
+        {
+          url: urlFor(services?.image).url(),
+        },
+      ],
+    },
+  };
 }
 
 export default async function Page({ params }) {

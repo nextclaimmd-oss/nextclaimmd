@@ -33,6 +33,9 @@ export const metadata = {
     template: "%s - Next ClaimMD",
   },
   description: "The Best Medical Billing Company in America",
+  openGraph: {
+    siteName: "Next ClaimMD",
+  },
   twitter: {
     card: "summary_large_image",
   },

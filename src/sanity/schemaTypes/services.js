@@ -3,6 +3,18 @@ export const services = {
   title: "Services",
   type: "document",
   fields: [
+       {
+      name: "metaTitle",
+      title: "Meta Title",
+      type: "string",
+    },
+    {
+      name: "Metadescription",
+      title: "Meta Description",
+      type: "text",
+      description:
+        "Short description for SEO (recommended: 140 to 160 characters)",
+    },
     {
       name: "bannerTitle",
       title: "Title Banner Image",
