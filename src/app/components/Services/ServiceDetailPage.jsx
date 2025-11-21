@@ -1,7 +1,6 @@
 import ServiceOverviews from "./ServiceOverview";
 import ServiceHeaderImages from "./ServiceBannerImage";
 import ServicesList from "./OtherServices";
-import ServiceContent from "./ServiceContentComp";
 import FAQSection from "./Faq";
 import SimpleTaskList from "./ItemList";
 
