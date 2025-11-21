@@ -28,8 +28,14 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Next Claim MD",
-  description: "The best Medical Billing Company in Pakistan",
+  title: {
+    default: "Next ClaimMD",
+    template: "%s - Next ClaimMD",
+  },
+  description: "The Best Medical Billing Company in America",
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({ children }) {
